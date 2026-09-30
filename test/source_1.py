@@ -1,7 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
-
+import json
 
 load_dotenv()
 
@@ -20,10 +20,10 @@ response=requests.get(
     }
 )
 
+res=response.json()
 status=response.status_code
 
 print(status)
 
-res=response.text
 
-print(res)
+print(json.dumps(res, indent=4, ensure_ascii=False))

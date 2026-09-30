@@ -1,14 +1,17 @@
 import os
 from dotenv import load_dotenv
+import pandas as pd
 import requests
+from pathlib import Path
 load_dotenv()
 
 api_key=os.getenv("GNewsApi")
+output=Path("data/raw/soruce_2.parquet")
 url = "https://gnews.io/api/v4/top-headlines"
 
 
-
-response=requests.get(url,
+def source_2():
+ response=requests.get(url,
                       params={
                         "apikey":api_key,
                         "language":"en",
@@ -16,11 +19,15 @@ response=requests.get(url,
                         "to": "2026-09-30"
                       })
 
+ data=response.json()
 
-status=response.status_code
+ df=pd.DataFrame(data["articles"])
 
-print(status)
+ output.parent.mkdir(parents=True,exist_ok=True)
+ df.to_parquet(output,index=False)
 
-res=response.text
+ print("Source 2 fetch Sucess.")
+ print("")
+ print(f"Source 2 save :{output}")
 
-print(res)
+

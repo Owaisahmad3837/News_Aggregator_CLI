@@ -9,9 +9,9 @@ api_key=os.getenv("TheNewsApi")
 url="https://api.thenewsapi.com/v1/news/top"
 output=Path("data/raw/soruce_1.parquet")
 
+def source_1():
 
-
-response=requests.get(url,
+ response=requests.get(url,
                       params={
                         "api_token":api_key,
                         "language":"en",
@@ -19,13 +19,14 @@ response=requests.get(url,
                         "published_before": "2026-09-30"
                       })
 
-data=response.json()
+ data=response.json()
 
-df=pd.DataFrame(data["data"])
+ df=pd.DataFrame(data["data"])
 
-output.parent.mkdir(parents=True,exist_ok=True)
-df.to_parquet(output,index=False)
+ output.parent.mkdir(parents=True,exist_ok=True)
+ df.to_parquet(output,index=False)
 
-print("Source 1 fetch Sucess.")
-print("")
-print(f"Source 1 save :{output}")
+ print("Source 1 fetch Sucess.")
+ print("")
+ print(f"Source 1 save :{output}")
+
